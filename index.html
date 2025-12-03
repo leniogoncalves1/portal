@@ -36,29 +36,73 @@
       font-family: 'Inter', sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      background-color: #000;
+    }
+
+    /* Styles for the Background Video to act as 'object-fit: cover' */
+    .video-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+        /* Fallback image: Importante manter caso o navegador bloqueie o autoplay ou a conexão esteja lenta */
+        background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+        background-size: cover;
+        background-position: center;
+    }
+    .video-background {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none; /* Prevents user interaction with video */
+    }
+    
+    /* Logic to ensure video covers screen based on aspect ratio (16:9) */
+    @media (min-aspect-ratio: 16/9) {
+        .video-background {
+            width: 100vw;
+            height: 56.25vw; /* 100 * 9 / 16 */
+        }
+    }
+    @media (max-aspect-ratio: 16/9) {
+        .video-background {
+            width: 177.78vh; /* 100 * 16 / 9 */
+            height: 100vh;
+        }
     }
   </style>
 </head>
-<body class="bg-gray-900 text-white">
+<body class="bg-black text-white">
   
-  <div class="relative min-h-screen flex items-center justify-center overflow-hidden bg-black">
+  <div class="relative min-h-screen flex items-center justify-center overflow-hidden">
     
-    <!-- Background Gradient (Roxo/Escuro) -->
-    <div class="absolute inset-0 z-0 bg-gradient-to-br from-gray-900 via-[#1a0b2e] to-black">
-        <!-- Efeitos decorativos de fundo -->
-        <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(88,28,135,0.3),transparent_70%)]"></div>
-        <div class="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_80%,rgba(76,29,149,0.2),transparent_50%)]"></div>
+    <!-- Video Background Container -->
+    <div class="video-wrapper">
+        <iframe 
+            class="video-background"
+            src="https://www.youtube.com/embed/Qx29DtzeNZc?controls=0&autoplay=1&mute=1&loop=1&playlist=Qx29DtzeNZc&playsinline=1&showinfo=0&rel=0&iv_load_policy=3&disablekb=1&modestbranding=1" 
+            title="Background Video"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+        <!-- Overlay Escuro (Gradient) para legibilidade do texto -->
+        <div class="absolute inset-0 bg-black/40 bg-gradient-to-b from-black/80 via-black/30 to-black/80 z-10"></div>
     </div>
 
     <!-- Container Principal -->
-    <div class="relative z-10 container mx-auto px-4 text-center">
+    <div class="relative z-20 container mx-auto px-4 text-center">
         
         <!-- Cartão com efeito de vidro (Glassmorphism) -->
-        <div class="animate-fade-in-up space-y-8 backdrop-blur-md bg-white/5 p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl max-w-3xl mx-auto">
+        <div class="animate-fade-in-up space-y-8 backdrop-blur-md bg-white/10 p-8 md:p-12 rounded-3xl border border-white/20 shadow-2xl max-w-3xl mx-auto">
           
           <!-- Ícone / Logo -->
           <div class="flex justify-center mb-6">
-            <div class="p-4 bg-white/5 rounded-full border border-white/10 shadow-inner">
+            <div class="p-4 bg-black/20 rounded-full border border-white/10 shadow-inner backdrop-blur-sm">
                <!-- Ícone de Montanha SVG -->
                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 text-emerald-400"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg>
             </div>
@@ -70,14 +114,14 @@
           </h1>
 
           <!-- Divisor -->
-          <div class="w-24 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent mx-auto rounded-full opacity-70"></div>
+          <div class="w-24 h-1 bg-gradient-to-r from-transparent via-emerald-500 to-transparent mx-auto rounded-full opacity-80"></div>
 
           <!-- Textos de Chamada -->
           <div class="space-y-2">
-            <p class="text-lg md:text-2xl text-gray-200 font-light">
+            <p class="text-lg md:text-2xl text-gray-100 font-light drop-shadow-md">
               Este domínio pode ser seu
             </p>
-            <p class="text-sm text-gray-400 uppercase tracking-widest font-semibold">
+            <p class="text-sm text-gray-300 uppercase tracking-widest font-semibold drop-shadow-sm">
               Oportunidade Exclusiva
             </p>
           </div>
@@ -102,7 +146,7 @@
         </div>
 
         <!-- Rodapé -->
-        <div class="mt-16 text-gray-600 text-sm">
+        <div class="mt-16 text-gray-400 text-sm drop-shadow-md font-medium">
           &copy; <script>document.write(new Date().getFullYear())</script> Todos os direitos reservados.
         </div>
     </div>
